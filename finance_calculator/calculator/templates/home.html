@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Personal Finance Calculator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        h1 {
+            color: #333;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        table th, table td {
+            padding: 10px;
+            border: 1px solid #ddd;
+            text-align: left;
+        }
+        .form-container {
+            margin-top: 20px;
+        }
+        .form-container input, .form-container select, .form-container textarea {
+            width: 100%;
+            padding: 8px;
+            margin: 5px 0;
+            border: 1px solid #ddd;
+        }
+    </style>
+</head>
+<body>
+    <h1>Финансовый калькулятор</h1>
+
+    <p><strong>Баланс: {{ balance }}</strong></p>
+
+    <!-- Форма для ввода новой транзакции -->
+    <div class="form-container">
+        <h2>Добавить новую тразакцию</h2>
+        <form method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit">Добавить транзакцию</button>
+        </form>
+    </div>
+
+    <!-- Таблица всех транзакций -->
+    <h2>Transaction History</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Дата</th>
+                <th>Тип</th>
+                <th>Сумма</th>
+                <th>Описание</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for transaction in transactions %}
+            <tr>
+                <td>{{ transaction.date }}</td>
+                <td>{{ transaction.get_type_display }}</td>
+                <td>{{ transaction.amount }}</td>
+                <td>{{ transaction.description }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+</body>
+</html>
